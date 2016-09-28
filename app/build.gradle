@@ -28,7 +28,10 @@ android {
 
         maven {
             url "https://jitpack.io"
-        }
+
+        maven {
+            url 'https://dl.bintray.com/spark/maven'
+        }}
     }
 }
 
@@ -53,7 +56,7 @@ dependencies {
     compile 'com.android.support:design:23.4.0'
     compile 'com.github.coyarzun89:fabtransitionactivity:0.2.0'
     compile 'hanks.xyz:htextview-library:0.1.5'
-
+    compile 'me.spark:submitbutton:1.0.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -4,4 +4,32 @@
     android:background="@color/colorPrimary"
     android:id="@+id/createFirelinkLayout">
 
+    <EditText
+        android:id="@+id/myLink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textAlignment="center"
+        android:textColor="#E0F2F1"
+        android:textColorLink="#E0F2F1"
+        android:textIsSelectable="false"
+        android:textSize="22dp"
+        android:typeface="normal"
+        android:layout_alignParentStart="false"
+        android:background="@drawable/background_border_white"
+        android:padding="8dp"
+        android:layout_marginLeft="90dp"
+        android:hint="My link"
+        android:textColorHint="#b6e0f2f1"
+        android:minWidth="200dp" />
+
+    <ImageButton android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_content_paste_white_24dp"
+        android:background="@null"
+        android:layout_toRightOf="@+id/myLink"
+        android:layout_marginLeft="10dp" />
 </RelativeLayout>
