@@ -1,0 +1,114 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:htext="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.nufdev.firelink.fragment.HomeFragment"
+    android:background="#E0F2F1">
+
+    <RelativeLayout
+        android:id="@+id/firelinkLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="false"
+        android:layout_centerInParent="true"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentTop="false"
+        android:visibility="visible"
+        android:layout_gravity="center">
+
+
+        <TextView
+            android:id="@+id/firelinkView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textAlignment="textStart"
+            android:textColor="#229c90"
+            android:textColorLink="#229c90"
+            android:textIsSelectable="false"
+            android:textSize="22dp"
+            android:textStyle="italic"
+            android:typeface="normal"
+            android:layout_alignParentStart="false"
+            android:background="@drawable/background_border"
+            android:padding="8dp"
+            android:layout_marginLeft="90dp"
+            android:hint="FireLink"
+            android:textColorHint="#26A69A" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/firelinkView"
+            android:layout_alignStart="@+id/firelinkView"
+            android:layout_marginBottom="5dp"
+            android:text="CURRENT FIRELINK IS:"
+            android:textColor="#26A69A"
+            android:textSize="13dp"
+            android:typeface="sans" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/firelinkView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:text="EXPIRE IN"
+            android:textColor="#26A69A"
+            android:textSize="13dp"
+            android:typeface="sans"
+            android:visibility="gone" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:text="OPEN"
+            android:layout_below="@+id/firelinkView"
+            android:layout_alignLeft="@+id/firelinkView"
+            android:layout_alignStart="@+id/firelinkView"
+            android:layout_marginTop="5dp"
+            android:id="@+id/openBtn">
+        </Button>
+
+        <Button
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/firelinkView"
+            android:layout_alignEnd="@+id/firelinkView"
+            android:text="COPY"
+            android:id="@+id/copyBtn"
+            android:layout_marginTop="5dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/progressLayout"
+        android:visibility="invisible">
+
+        <ProgressBar
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:layout_centerInParent="true"
+            android:id="@+id/progressLink" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_above="@+id/progressLink"
+            android:layout_height="wrap_content"
+            android:text="Getting firelink..."
+            android:id="@+id/GettingLink"
+            android:layout_centerHorizontal="true"
+            android:typeface="sans" />
+    </RelativeLayout>
+
+</FrameLayout>

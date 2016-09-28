@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "459184104119",
+    "firebase_url": "https://firelink-db69b.firebaseio.com",
+    "project_id": "firelink-db69b",
+    "storage_bucket": "firelink-db69b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:459184104119:android:e572c0a226cfff87",
+        "android_client_info": {
+          "package_name": "com.nufdev.firelink"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "459184104119-sq7msshjt7ngfs16n7sqs7vceoare88b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-SpLx77vX5BineDmj6mgRL8ioz4o7dvw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
