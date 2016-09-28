@@ -15,7 +15,7 @@ public class createFirelink extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_firelink);
+        setContentView(R.layout.activity_create);
         ButterKnife.bind(this);
     }
 
