@@ -637,7 +637,8 @@ public class MainActivity extends AppCompatActivity implements //:
     @Override
     public void onFabAnimationEnd() {
         Intent intent = new Intent(this, createFirelink.class);
-        startActivityForResult(intent, REQUEST_CODE);
+        this.startActivityForResult(intent, REQUEST_CODE);
+        this.overridePendingTransition(0, 0);
     }
 
 
