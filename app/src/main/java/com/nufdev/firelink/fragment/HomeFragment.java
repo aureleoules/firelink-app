@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -21,6 +20,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.hanks.htextview.HTextView;
+import com.hanks.htextview.HTextViewType;
 import com.nufdev.firelink.MainActivity;
 import com.nufdev.firelink.R;
 
@@ -38,7 +39,7 @@ public class HomeFragment extends Fragment {
 
     //[TEXTVIEWS]:
     @BindView(R.id.firelinkView)
-    TextView firelinkView;
+    HTextView firelinkView;
     @BindView(R.id.progressLayout)
 
     //[LAYOUTS]:
@@ -65,7 +66,8 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
-
+        progressLayout.setVisibility(View.VISIBLE);
+        firelinkLayout.setVisibility(View.GONE);
         if (MainActivity.firelinkUser != null) {
 
             mDatabase.child("users").child(MainActivity.firelinkUser.getUid()).child("link").addListenerForSingleValueEvent(
@@ -76,7 +78,10 @@ public class HomeFragment extends Fragment {
 
                             String strSnap = String.valueOf(snap.child("url").getValue().toString());
                             Log.v("Link:", strSnap);
-                            firelinkView.setText(strSnap);
+                            //firelinkView.setText(strSnap);
+                            firelinkView.setAnimateType(HTextViewType.SCALE);
+                            firelinkView.animateText(strSnap); // animate
+
                             progressLayout.setVisibility(View.GONE);
                             firelinkLayout.setVisibility(View.VISIBLE);
                         }
@@ -100,7 +105,7 @@ public class HomeFragment extends Fragment {
 
                                 String strSnap = String.valueOf(dataSnapshot.getValue(String.class));
                                 Log.v("Link:", strSnap);
-                                firelinkView.setText(strSnap);
+                                firelinkView.animateText(strSnap); // animate
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -110,7 +115,7 @@ public class HomeFragment extends Fragment {
                         public void onChildRemoved(DataSnapshot dataSnapshot) {
                             String strSnap = String.valueOf(dataSnapshot.getValue(String.class));
                             Log.v("Link:", strSnap);
-                            firelinkView.setText(strSnap);
+                            firelinkView.animateText(strSnap); // animate
 
                         }
 
@@ -118,7 +123,7 @@ public class HomeFragment extends Fragment {
                         public void onChildMoved(DataSnapshot dataSnapshot, String s) {
                             String strSnap = String.valueOf(dataSnapshot.getValue(String.class));
                             Log.v("Link:", strSnap);
-                            firelinkView.setText(strSnap);
+                            firelinkView.animateText(strSnap); // animate
 
                         }
 
