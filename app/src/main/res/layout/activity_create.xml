@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimary"
     android:id="@+id/createFirelinkLayout">
 
@@ -23,7 +25,8 @@
         android:layout_marginLeft="90dp"
         android:hint="My link"
         android:textColorHint="#b6e0f2f1"
-        android:minWidth="200dp" />
+        android:minWidth="200dp"
+        android:maxLength="350" />
 
     <ImageButton android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,5 +34,20 @@
         android:src="@drawable/ic_content_paste_white_24dp"
         android:background="@null"
         android:layout_toRightOf="@+id/myLink"
-        android:layout_marginLeft="10dp" />
+        android:layout_marginLeft="10dp"
+        android:id="@+id/pasteBtn" />
+    <com.spark.submitbutton.SubmitButton
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="FIRELINK!"
+        android:textColor="@color/gray"
+        app:sub_btn_background="@color/white"
+        app:sub_btn_duration="1500"
+        app:sub_btn_line_color="#4c95ba"
+        app:sub_btn_ripple_color="#4c95ba"
+        app:sub_btn_tick_color="@color/white"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="25dp" />
+
 </RelativeLayout>
