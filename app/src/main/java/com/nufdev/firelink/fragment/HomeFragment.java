@@ -80,10 +80,13 @@ public class HomeFragment extends Fragment {
                             Log.v("Link:", strSnap);
                             //firelinkView.setText(strSnap);
                             firelinkView.setAnimateType(HTextViewType.SCALE);
-                            firelinkView.animateText(strSnap); // animate
+                            if(strSnap != null) {
+                                firelinkView.animateText(strSnap); // animate
+                                progressLayout.setVisibility(View.GONE);
+                                firelinkLayout.setVisibility(View.VISIBLE);
+                            }
 
-                            progressLayout.setVisibility(View.GONE);
-                            firelinkLayout.setVisibility(View.VISIBLE);
+
                         }
 
                         @Override
@@ -105,7 +108,9 @@ public class HomeFragment extends Fragment {
 
                                 String strSnap = String.valueOf(dataSnapshot.getValue(String.class));
                                 Log.v("Link:", strSnap);
-                                firelinkView.animateText(strSnap); // animate
+                                if(strSnap != null) {
+                                    firelinkView.animateText(strSnap); // animate
+                                }
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -115,16 +120,18 @@ public class HomeFragment extends Fragment {
                         public void onChildRemoved(DataSnapshot dataSnapshot) {
                             String strSnap = String.valueOf(dataSnapshot.getValue(String.class));
                             Log.v("Link:", strSnap);
-                            firelinkView.animateText(strSnap); // animate
-
+                            if(strSnap != null) {
+                                firelinkView.animateText(strSnap); // animate
+                            }
                         }
 
                         @Override
                         public void onChildMoved(DataSnapshot dataSnapshot, String s) {
                             String strSnap = String.valueOf(dataSnapshot.getValue(String.class));
                             Log.v("Link:", strSnap);
-                            firelinkView.animateText(strSnap); // animate
-
+                            if(strSnap != null) {
+                                firelinkView.animateText(strSnap); // animate
+                            }
                         }
 
                         @Override

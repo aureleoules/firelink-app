@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements //:
         View.OnClickListener,
         SheetLayout.OnFabAnimationEndListener {
     public static FirebaseUser firelinkUser;
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
     private static final String TAG = "GoogleActivity";
     private static final int RC_SIGN_IN = 9001;
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -92,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements //:
 
     // index to identify current nav menu item
     public static int navItemIndex = 0;
-
     // tags used to attach the fragments
     private static final String TAG_HOME = "home";
     private static final String TAG_HISTORY = "history";
@@ -148,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements //:
 
         signoutButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                revokeAccess();
+                signOut();
             }
         });
 
@@ -197,7 +195,6 @@ public class MainActivity extends AppCompatActivity implements //:
                     drawer.setVisibility(View.VISIBLE);
                     loadNavHeader();
 
-
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
@@ -214,8 +211,8 @@ public class MainActivity extends AppCompatActivity implements //:
 
         };
         try {
-            //
-            writeNewUser(firelinkUser.getUid(), firelinkUser.getDisplayName(), firelinkUser.getEmail());
+                writeNewUser(firelinkUser.getUid(), firelinkUser.getDisplayName(), firelinkUser.getEmail());
+
         } catch (Exception e) {
             e.printStackTrace();
         }
