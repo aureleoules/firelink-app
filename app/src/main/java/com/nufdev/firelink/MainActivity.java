@@ -1,6 +1,9 @@
 package com.nufdev.firelink;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -45,7 +48,6 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.nufdev.firelink.activities.AboutMeActivity;
-import com.nufdev.firelink.activities.SignIn;
 import com.nufdev.firelink.activities.createFirelink;
 import com.nufdev.firelink.fragment.HistoryFragment;
 import com.nufdev.firelink.fragment.HomeFragment;
@@ -56,6 +58,8 @@ import com.nufdev.firelink.other.CircleTransform;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 public class MainActivity extends AppCompatActivity implements //:
         HomeFragment.OnFragmentInteractionListener,
@@ -66,11 +70,9 @@ public class MainActivity extends AppCompatActivity implements //:
         View.OnClickListener,
         SheetLayout.OnFabAnimationEndListener {
     public static FirebaseUser firelinkUser;
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
     private static final String TAG = "GoogleActivity";
     private static final int RC_SIGN_IN = 9001;
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-    static SignIn signA;
     // [START declare_auth]
     private FirebaseAuth mAuth;
     // [END declare_auth]
@@ -84,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements //:
     private ImageView imgNavHeaderBg, imgProfile;
     private TextView txtName, txtWebsite;
     private Toolbar toolbar;
+    SharedPreferences prefs = null;
 
     // urls to load navigation header background image
     // and profile image
@@ -92,7 +95,6 @@ public class MainActivity extends AppCompatActivity implements //:
 
     // index to identify current nav menu item
     public static int navItemIndex = 0;
-
     // tags used to attach the fragments
     private static final String TAG_HOME = "home";
     private static final String TAG_HISTORY = "history";
@@ -115,8 +117,9 @@ public class MainActivity extends AppCompatActivity implements //:
     @BindView(R.id.imageButton)
     ImageButton signoutButton;
 
-    @BindView(R.id.bottom_sheet) SheetLayout mSheetLayout;
-    @BindView(R.id.fab) FloatingActionButton fab;
+    @BindView(R.id.bottom_sheet)
+    SheetLayout mSheetLayout;
+    public static FloatingActionButton fab;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -124,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements //:
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        prefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -132,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements //:
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
 
 
         mSheetLayout.setFab(fab);
@@ -148,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements //:
 
         signoutButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                revokeAccess();
+                signOut();
             }
         });
 
@@ -197,7 +202,6 @@ public class MainActivity extends AppCompatActivity implements //:
                     drawer.setVisibility(View.VISIBLE);
                     loadNavHeader();
 
-
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
@@ -211,19 +215,21 @@ public class MainActivity extends AppCompatActivity implements //:
             }
 
 
-
         };
         try {
-            //
             writeNewUser(firelinkUser.getUid(), firelinkUser.getDisplayName(), firelinkUser.getEmail());
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         // [END auth_state_listener]
+
+
     }
 
-
+    public void firstRun() {
+        ShowCase();
+    }
 
     public void onStart() {
         super.onStart();
@@ -246,7 +252,7 @@ public class MainActivity extends AppCompatActivity implements //:
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == REQUEST_CODE){ //FAB STUFF
+        if (requestCode == REQUEST_CODE) { //FAB STUFF
             mSheetLayout.contractFab();
         }
 
@@ -411,7 +417,7 @@ public class MainActivity extends AppCompatActivity implements //:
             drawer.closeDrawers();
 
             // show or hide the fab button
-                fab.show();
+            fab.show();
             return;
         }
 
@@ -585,11 +591,7 @@ public class MainActivity extends AppCompatActivity implements //:
         if (navItemIndex == 0) {
             getMenuInflater().inflate(R.menu.main, menu);
         }
-
-        // when fragment is notifications, load the menu created for notifications
-        if (navItemIndex == 3) {
-            getMenuInflater().inflate(R.menu.notifications, menu);
-        }
+        //TODO: Create menu for other Fragments!
         return true;
     }
 
@@ -605,17 +607,9 @@ public class MainActivity extends AppCompatActivity implements //:
             Toast.makeText(getApplicationContext(), "Logout user!", Toast.LENGTH_LONG).show();
             return true;
         }
-
-        // user is in notifications fragment
-        // and selected 'Mark all as Read'
-        if (id == R.id.action_mark_all_read) {
-            Toast.makeText(getApplicationContext(), "All notifications marked as read!", Toast.LENGTH_LONG).show();
-        }
-
-        // user is in notifications fragment
-        // and selected 'Clear All'
-        if (id == R.id.action_clear_notifications) {
-            Toast.makeText(getApplicationContext(), "Clear all notifications!", Toast.LENGTH_LONG).show();
+        if (id == R.id.action_help) {
+            ShowCase();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -641,5 +635,27 @@ public class MainActivity extends AppCompatActivity implements //:
         this.overridePendingTransition(0, 0);
     }
 
+    public void ShowCase() {
+        ShowcaseConfig config = new ShowcaseConfig();
+        config.setDelay(250); // half second between each showcase view
+        config.setDismissTextColor(Color.parseColor("#009688"));
+        config.setDismissTextStyle(Typeface.DEFAULT_BOLD);
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this);
+
+        sequence.setConfig(config);
+        sequence.addSequenceItem(HomeFragment.Mainview.findViewById(R.id.firelinkView),
+                "Shows current Firelink.", "Cool!");
+
+        sequence.addSequenceItem(HomeFragment.Mainview.findViewById(R.id.openBtn),
+                "Open Firelink.", "Great!");
+
+        sequence.addSequenceItem(HomeFragment.Mainview.findViewById(R.id.copyBtn),
+                "Copy Firelink.", "Awesome!");
+
+        sequence.addSequenceItem(fab,
+                "Create Firelink!", "Amazing!");
+
+        sequence.start();
+    }
 
 }
