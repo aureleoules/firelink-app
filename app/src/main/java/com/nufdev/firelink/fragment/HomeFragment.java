@@ -47,7 +47,7 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.firelinkLayout)
     RelativeLayout firelinkLayout;
 
-
+    public static View Mainview;
     private int timeout = 1;
     private OnFragmentInteractionListener mListener;
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -59,13 +59,15 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
-        ButterKnife.bind(this, view);
+        Mainview = inflater.inflate(R.layout.fragment_home, container, false);
+        ButterKnife.bind(this, Mainview);
         progressLayout.setVisibility(View.VISIBLE);
         firelinkLayout.setVisibility(View.GONE);
         if (MainActivity.firelinkUser != null) {
@@ -142,9 +144,12 @@ public class HomeFragment extends Fragment {
                     });
 
         }
-        return view;
-    }
 
+        return Mainview;
+    }
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+    }
 
     @OnClick(R.id.firelinkView)
     public void openlinkFromView(View view) {
@@ -225,7 +230,9 @@ public class HomeFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
+
 }

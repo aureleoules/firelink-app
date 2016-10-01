@@ -29,9 +29,10 @@ android {
         maven {
             url "https://jitpack.io"
 
-        maven {
-            url 'https://dl.bintray.com/spark/maven'
-        }}
+            maven {
+                url 'https://dl.bintray.com/spark/maven'
+            }
+        }
     }
 }
 
@@ -55,6 +56,7 @@ dependencies {
     compile 'hanks.xyz:htextview-library:0.1.5'
     compile 'me.spark:submitbutton:1.0.1'
     compile 'com.sackcentury:shinebutton:0.1.6'
+    compile 'com.github.aureleoules:MaterialShowcaseView:1.1.1'
 
 }
 
