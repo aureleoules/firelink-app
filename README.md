@@ -4,7 +4,7 @@ Sync web links with your PC and your (android) phone very smoothly!
 
 ## Usage
 
-Checkout the web version: https://github.com/aureleoules/firelink-app
+Checkout the web version: https://github.com/aureleoules/firelink-app  
 Install android app from the PlayStore : [Not Available Yet]
 
 ## Contributing
