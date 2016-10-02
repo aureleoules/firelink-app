@@ -8,6 +8,9 @@ import android.webkit.URLUtil;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.nufdev.firelink.MainActivity;
 import com.nufdev.firelink.R;
 
 import butterknife.BindView;
@@ -24,6 +27,8 @@ public class createFirelink extends AppCompatActivity {
     ImageButton pasteBtn;
     ClipboardManager clipboard;
     String cpValue;
+    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,6 +43,7 @@ public class createFirelink extends AppCompatActivity {
 
 
     }
+
     @OnClick(R.id.pasteBtn)
     public void submit(View view) {
         cpValue = clipboard.getText().toString();
@@ -45,4 +51,11 @@ public class createFirelink extends AppCompatActivity {
 
     }
 
+    @OnClick(R.id.fireBtn)
+    public void fireLink(View view) {
+        String url = myLink.getText().toString();
+        if (URLUtil.isValidUrl(url)) {
+            mDatabase.child("users").child(MainActivity.firelinkUser.getUid()).child("link").child("url").setValue(url);
+        }
+    }
 }
