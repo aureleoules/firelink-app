@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -30,6 +31,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class HomeFragment extends Fragment {
+
+    public String strSnap;
 
     //[BUTTONS]:
     @BindView(R.id.openBtn)
@@ -62,6 +65,16 @@ public class HomeFragment extends Fragment {
 
     }
 
+    public String snap(String txt) {
+        if(txt.length() > 22) {
+            return txt.substring(0, 22) + "...";
+        }
+        else {
+            return txt;
+        }
+    }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -78,12 +91,12 @@ public class HomeFragment extends Fragment {
                         public void onDataChange(DataSnapshot snap) {
                             // Get user value
 
-                            String strSnap = String.valueOf(snap.child("url").getValue().toString());
+                            strSnap = String.valueOf(snap.child("url").getValue().toString());
                             Log.v("Link:", strSnap);
                             //firelinkView.setText(strSnap);
                             firelinkView.setAnimateType(HTextViewType.SCALE);
                             if(strSnap != null) {
-                                firelinkView.animateText(strSnap); // animate
+                                firelinkView.animateText(snap(strSnap)); // animate
                                 progressLayout.setVisibility(View.GONE);
                                 firelinkLayout.setVisibility(View.VISIBLE);
                             }
@@ -108,10 +121,10 @@ public class HomeFragment extends Fragment {
                         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                             try {
 
-                                String strSnap = String.valueOf(dataSnapshot.getValue(String.class));
+                                strSnap = String.valueOf(dataSnapshot.getValue(String.class));
                                 Log.v("Link:", strSnap);
                                 if(strSnap != null) {
-                                    firelinkView.animateText(strSnap); // animate
+                                    firelinkView.animateText(snap(strSnap)); // animate
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -120,19 +133,19 @@ public class HomeFragment extends Fragment {
 
                         @Override
                         public void onChildRemoved(DataSnapshot dataSnapshot) {
-                            String strSnap = String.valueOf(dataSnapshot.getValue(String.class));
+                            strSnap = String.valueOf(dataSnapshot.getValue(String.class));
                             Log.v("Link:", strSnap);
                             if(strSnap != null) {
-                                firelinkView.animateText(strSnap); // animate
+                                firelinkView.animateText(snap(strSnap)); // animate
                             }
                         }
 
                         @Override
                         public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                            String strSnap = String.valueOf(dataSnapshot.getValue(String.class));
+                            strSnap = String.valueOf(dataSnapshot.getValue(String.class));
                             Log.v("Link:", strSnap);
                             if(strSnap != null) {
-                                firelinkView.animateText(strSnap); // animate
+                                firelinkView.animateText(snap(strSnap)); // animate
                             }
                         }
 
@@ -144,12 +157,20 @@ public class HomeFragment extends Fragment {
                     });
 
         }
-
+        firelinkView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast toast = Toast.makeText(getActivity(), "Firelink: " + strSnap, Toast.LENGTH_LONG);
+                toast.show();
+                return true;
+            }
+        });
         return Mainview;
     }
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
     }
+
 
     @OnClick(R.id.firelinkView)
     public void openlinkFromView(View view) {
@@ -158,7 +179,7 @@ public class HomeFragment extends Fragment {
 
     @OnClick(R.id.openBtn)
     public void openLink(View view) {
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(firelinkView.getText().toString()));
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(strSnap));
         startActivity(browserIntent);
     }
 
@@ -169,10 +190,10 @@ public class HomeFragment extends Fragment {
             int sdk = android.os.Build.VERSION.SDK_INT;
             if (sdk < android.os.Build.VERSION_CODES.HONEYCOMB) {
                 android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-                clipboard.setText(firelinkView.getText().toString());
+                clipboard.setText(strSnap);
             } else {
                 android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-                android.content.ClipData clip = android.content.ClipData.newPlainText("Linkl", firelinkView.getText().toString());
+                android.content.ClipData clip = android.content.ClipData.newPlainText("Linkl", strSnap);
                 clipboard.setPrimaryClip(clip);
             }
 
@@ -186,7 +207,6 @@ public class HomeFragment extends Fragment {
                 public void onTick(long millisUntilFinished) {
                     Log.v("seconds remaining: ", String.valueOf(millisUntilFinished / 1000));
                 }
-
                 public void onFinish() {
                     timeout = 1;
                 }
