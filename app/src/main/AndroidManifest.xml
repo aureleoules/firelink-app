@@ -26,6 +26,21 @@
         <activity android:name=".activities.createFirelink" />
         <activity android:name=".activities.FireLink2" />
         <activity android:name=".activities.AboutMeActivity" />
+
+        <service
+            android:name=".other.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".other.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>
